@@ -1,11 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
 import Button from '../button/button.component';
-
+import { addItem } from '../../redux/cart/cart.actions';
 import './product-card.styles.scss';
 
+const mapDispatchToProps = dispatch => ({
+  addItem: item => dispatch(addItem(item))
+})
+
 const ProductCard = ({ item }) => {
-  const { name, image, price, oldPrice } = item;
+  const { name, image, price ,addItem, oldPrice } = item;  
 
   return (
     <div className="product-card">
@@ -19,7 +24,7 @@ const ProductCard = ({ item }) => {
             : null
         }
         <div className="product-card__button-wrapper">
-          <Button>+ Add to cart</Button>
+        <Button onClick={() => addItem(item)}>+ Add to cart</Button>
         </div>
       </div>
       <div className="product-card__info">
@@ -34,7 +39,8 @@ const ProductCard = ({ item }) => {
         </div>
       </div>
     </div>
+    
   )
 };
 
-export default ProductCard;
+export default connect(null, mapDispatchToProps)(ProductCard);
